@@ -12,29 +12,29 @@ Kafka x Redpanda
 Para aplicação é transparente a configuração do kafka ou redpanda. No diretorio docker tem as duas configurações.
 
 **redpanda**: 
-    Executar dockker-compose -up
-    Esta configurado o prometheus e grafana.
+    <br/>Executar docker-compose -up
+    <br/>Esta configurado o prometheus e grafana.
 
 **kafka**
-    Executar dockker-compose -up
+    <br/>Executar docker-compose -up
 
 **Para testar os endpoints tem uma collection do postman poc-message.postman_collection.json**
 
 <br/>
 
-**Comandos:**
-mvn clean compile 
+**Comandos:**<br/>
+mvn clean compile <br/>
 mvn spring-boot:run
 
 kafka-topics --list --bootstrap-server localhost:9092
 
 
-kafka-console-consumer --topic produtor-create-topic --from-beginning --group unico2 --bootstrap-server localhost:9092
-kafka-console-consumer --topic produtor-process-topic --from-beginning --group unico2 --bootstrap-server localhost:9092
+kafka-console-consumer --topic produtor-create-topic --from-beginning --group unico2 --bootstrap-server localhost:9092<br/>
+kafka-console-consumer --topic produtor-process-topic --from-beginning --group unico2 --bootstrap-server localhost:9092<br/>
 
 
-kafka-topics --delete --topic  produtor-create-topic --bootstrap-server localhost:9092
-kafka-topics --delete --topic  produtor-process-topic --bootstrap-server localhost:9092
+kafka-topics --delete --topic  produtor-create-topic --bootstrap-server localhost:9092<br/>
+kafka-topics --delete --topic  produtor-process-topic --bootstrap-server localhost:9092<br/>
 
 
 curl
