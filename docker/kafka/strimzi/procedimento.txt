@@ -1,0 +1,38 @@
+minikube start 
+
+1) Install Strimzi
+
+//add helm chart repo for Strimzi
+helm repo add strimzi https://strimzi.io/charts/
+//install it! (I have used strimzi-kafka as the release name)
+helm install strimzi-kafka strimzi/strimzi-kafka-operator
+
+2) consultar ok
+    kubectl get pods -l=name=strimzi-cluster-operator
+    kubectl get crd | grep strimzi
+
+3) apply CRD 
+    kubectl apply -f kafka-project.yaml
+    kubectl apply -f kafka-topic.yaml
+    kubectl get pods --all-namespaces 
+
+4) Pegar a porta
+   kubectl get service my-cluster-kafka-external-bootstrap -o=jsonpath='{.spec.ports[0].nodePort}{"\n"}'
+
+5) Pegar ip
+   kubectl get nodes --output=jsonpath='{range .items[*]}{.status.addresses[?(@.type=="InternalIP")].address}{"\n"}{end}'
+
+
+## criado acima com a CRD kafka-topics --create --topic my-topic --bootstrap-server 192.168.49.2:32258 --replication-factor 3 --partitions 3
+kafka-topics --list --bootstrap-server 192.168.49.2:32258 
+
+kafka-topics --bootstrap-server 192.168.49.2:32258 --describe --topic my-topic
+
+
+kafka-console-producer --topic my-topic --bootstrap-server 192.168.49.2:32564
+kafka-console-consumer --topic my-topic --from-beginning --group unico --bootstrap-server 192.168.49.2:32564
+
+kafka-console-consumer --topic my-topic --group unico --bootstrap-server 192.168.49.2:32258
+
+5)Configurar prometheus e grafana
+    

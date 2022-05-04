@@ -1,0 +1,23 @@
+flow: flow-events
+spring.application.name: flow
+
+spring:
+  cloud.stream.kafka.streams.binder.brokers: localhost:9092
+
+spring.cloud.stream:
+  bindings:
+    flow-in-0.destination: produtor-create-topic
+    flow-out-0.destination: produtor-process-topic
+  kafka.streams.binder:
+    autoAddPartitions: true
+    applicationId: ${spring.application.name}
+    configuration:
+      application.server: localhost:${server.port}
+      default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+server.port: 8080
+
+
+
+
+

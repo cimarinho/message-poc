@@ -1,0 +1,160 @@
+openapi: 3.0.1
+info:
+  title: Orquestration Demo
+  description: Orquestration Demo
+  contact:
+    name: API Support
+    url: https://marinhomarcelo.com.br
+    email: marinho.marcelo@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+servers:
+  - url: http://localhost:8000
+    variables: {}
+paths:
+  /v1/flow:
+    post:
+      operationId: newFlow
+      security:
+        - OAuth2: [ admin ]
+      parameters:
+        - in: header
+          name: transactionId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlowRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/flow/{transactionId}:
+    get:
+      operationId: getFlow
+      security:
+        - OAuth2: [ admin ]
+      parameters:
+        - required: true
+          name: transactionId
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowStatusResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    FlowRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        cpfCnpj:
+          type: string
+        idProduct:
+          type: integer
+        price:
+          type: number
+      required:
+        - name
+        - cpfCnpj
+        - idProduct
+        - price
+    FlowResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        cpfCnpj:
+          type: string
+        idProduct:
+          type: integer
+        price:
+          type: number
+        transactionId:
+          type: string
+        status:
+          type: string
+        transcationDate:
+          type: string
+          description: dd/MM/YYYY hh:mm:ss
+      required:
+        - name
+        - cpfCnpj
+        - idProduct
+        - price
+    FlowStatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants access to admin operations
