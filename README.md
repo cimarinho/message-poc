@@ -51,7 +51,9 @@ curl --location --request POST 'http://localhost:8080/v1/flow' \
 }'
 
 <br/>
-http://localhost:8080/v1/flow/1234564
+curl --location --request GET 'http://localhost:8080/v1/flow/1234564' \
+--header 'Content-Type: application/json'
 
 <br/>
-http://localhost:9644/metrics
+curl --location --request GET 'http://localhost:9644/metrics' \
+--header 'Content-Type: application/json'
